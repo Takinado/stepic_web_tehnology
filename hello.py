@@ -6,8 +6,7 @@ def app(environ, start_response):
     # data = 'Hello, World!\n'
     status = '200 OK'
     response_headers = [
-        ('Content-type','text/plain'),
-        # ('Content-Length', str(len(data)))
+        ('Content-type','text/plain')
     ]
     start_response(status, response_headers)
     return [str(i) + "\n" for i in environ['QUERY_STRING'].split("&")]
