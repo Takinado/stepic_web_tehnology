@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-__author__ = 'takinado'
 
 import httplib
-
 
 conn = httplib.HTTPConnection("127.0.0.1")
 conn.request("GET", "/uploads/1.jpeg")
