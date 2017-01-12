@@ -57,10 +57,15 @@ WSGI_APPLICATION = 'ask.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'ask_db',
+        'HOST': 'localhost',
+        'USER': 'root',
+        'PASSWORD': '',
+    },
 }
+
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -82,7 +87,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), 'templates'),)
+
+
 try:
-    from ask.local_settings import *
+    from local_settings import *
 except ImportError:
     pass
