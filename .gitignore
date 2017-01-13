@@ -92,3 +92,4 @@ ENV/
 
 Будет удалено .idea/
 .idea
+static/

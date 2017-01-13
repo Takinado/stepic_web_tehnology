@@ -8,6 +8,6 @@
 #
 sudo /etc/init.d/mysql start
 mysql -uroot -e "CREATE DATABASE web CHARACTER SET utf8 COLLATE utf8_general_ci;"
-mysql -uroot -e "CREATE USER 'box'@'localhost' IDENTIFIED BY '1234';"
-mysql -uroot -e "GRANT ALL PRIVILEGES ON web.* TO 'box'@'localhost';"
+#mysql -uroot -e "CREATE USER 'box'@'localhost' IDENTIFIED BY '1234';"
+mysql -uroot -e "GRANT ALL PRIVILEGES ON web.* TO 'root'@'localhost';"
 mysql -uroot -e "FLUSH PRIVILEGES;"

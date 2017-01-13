@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from .models import Question
+from .models import Question, QuestionManager
 
 # Create your views here.
 
@@ -16,10 +16,10 @@ def question_all(reqiest, *args, **kwargs):
 
 
 def new(reqiest, *args, **kwargs):
-    output = Question.objects.all().order_by('-added_at')[:10]
+    output = Question.objects.new()
     return HttpResponse(output)
 
 
 def popular(reqiest, *args, **kwargs):
-    output = Question.objects.all().order_by('-rating')
+    output = Question.objects.popular()
     return HttpResponse(output)
