@@ -7,10 +7,9 @@ class Question(models.Model):
     title = models.CharField(max_length=255, verbose_name='Заголовок')
     text = models.TextField(blank=True, verbose_name='Текст')
     added_at = models.DateField(auto_now_add=True, verbose_name='Дата добавления')
-    rating = models.IntegerField(verbose_name='Рейтинг')
-    author = models.ForeignKey(User, editable=False, verbose_name='Автор')
-    likes = models.ManyToManyField(User, verbose_name='Лайкнувшие')
-    QuestionManager = models.Manager()
+    rating = models.IntegerField(blank=True, verbose_name='Рейтинг')
+    author = models.ForeignKey(User, related_name='author', verbose_name='Автор')
+    likes = models.ManyToManyField(User, blank=True, related_name='likes', verbose_name='Лайкнувшие')
 
     def __unicode__(self):
         return self.title
@@ -18,15 +17,6 @@ class Question(models.Model):
     class Meta:
         verbose_name = 'Вопрос'
         verbose_name_plural = 'Вопросы'
-
-
-class QuestionManager(models.Manager):
-
-    def new(self):
-        return Question.QuestionManager.all().order_by('added_at')[:10]
-
-    def popular(self):
-        return Question.QuestionManager.all().order_by('rating')
 
 
 class Answer(models.Model):

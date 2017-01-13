@@ -11,8 +11,3 @@ sudo ln -sf /home/box/web/etc/django.py /etc/gunicorn.d/django.py
 
 sudo /etc/init.d/gunicorn restart
 
-sudo /etc/init.d/mysql start
-sudo mysql -uroot -p -e 'CREATE DATABASE ask_db CHARACTER SET utf8;'
-
-
-
