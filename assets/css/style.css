@@ -1,0 +1,35 @@
+p.category{
+    font-weight: 700;
+}
+p.not-in-stock{
+    color: #f00;
+}
+
+
+#imagepool_output{
+    display: none;
+}
+#imagepool_image_list{
+    margin-top: 60px;
+}
+#imagepool_image_list td{
+    text-align: center;
+    width: 160px;
+    height: 120px;
+}
+#imagepool_image_list td.link{
+    font-size: xx-large;
+    width: 20px;
+}
+#imagepool_image_list td img{
+    max-width: 160px;
+    max-height: 100px;
+}
+#imagepool_image_list td a:link, #imagepool_image_list td a:visited,
+#imagepool_image_list td a:active, #imagepool_image_list td a:hover{
+    text-decoration: none;
+}
+#imagepool_image_list td a.disabled:link, #imagepool_image_list td a.disabled:visited,
+#imagepool_image_list td a.disabled:active, #imagepool_image_list td a.disabled:hover{
+    display: none;
+}
