@@ -7,7 +7,7 @@ from django.db import models
 class QuestionManager(models.Manager):
     @staticmethod
     def new():
-        return Question.objects.all().order_by('-added_at')
+        return Question.objects.all().order_by('-pk')
 
     @staticmethod
     def popular():

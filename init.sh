@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-sudo pip install -r /home/box/web/requirements.txt 
+#sudo pip install -r /home/box/web/requirements.txt 
+sudo pip install django-bootstrap3
+
 sudo rm /etc/nginx/sites-enabled/default
 sudo ln -sf /home/box/web/etc/nginx.conf  /etc/nginx/sites-enabled/default
 sudo /etc/init.d/nginx restart
