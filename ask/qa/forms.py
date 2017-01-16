@@ -21,13 +21,13 @@ class AskForm(forms.Form):
 
 class AnswerForm(forms.Form):
     text = forms.CharField(widget=forms.Textarea, label='Текст ответа')
-    question_id = forms.IntegerField(widget=forms.HiddenInput)
+    question = forms.IntegerField(widget=forms.HiddenInput)
 
     def save(self):
         question = get_object_or_404(
-            Question, pk=self.cleaned_data['question_id']
+            Question, pk=self.cleaned_data['question']
         )
-        self.cleaned_data['question_id'] = question.id
+        self.cleaned_data['question'] = question.id
         if self._user.is_anonymous():
             self.cleaned_data['author_id'] = 1
         else:
