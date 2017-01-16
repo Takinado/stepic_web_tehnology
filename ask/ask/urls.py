@@ -3,6 +3,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
 from qa.views import test, popular, question_detail, new, question_ask, question_answer_add
+from qa.views import user_singup, user_login, user_logout
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -12,8 +13,9 @@ urlpatterns = patterns('',
 
     #url(r'^$', question_list_all, name='question-list-all'),
     url(r'^$', new, name='index'),
-    url(r'^login/', test, name='login'),
-    url(r'^logout/', test, name='logout'),
+    url(r'^login/', user_login, name='user_login'),
+    url(r'^logout/', user_logout, name='user_logout'),
+    url(r'^singup/', user_singup, name='user_singup'),
     url(r'^signup/', test),
     url(r'^question/(?P<pk>\d+)/', question_detail, name='question_detail'),
     url(r'^answer/', question_answer_add, name='question_answer'),

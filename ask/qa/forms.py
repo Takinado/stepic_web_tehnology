@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 
 from .models import Question, Answer
@@ -27,7 +29,7 @@ class AnswerForm(forms.Form):
         question = get_object_or_404(
             Question, pk=self.cleaned_data['question']
         )
-        self.cleaned_data['question'] = question.id
+        self.cleaned_data['question'] = question
         if self._user.is_anonymous():
             self.cleaned_data['author_id'] = 1
         else:
@@ -35,3 +37,26 @@ class AnswerForm(forms.Form):
         answer = Answer(**self.cleaned_data)
         answer.save()
         return answer
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=100, label='Логин')
+    password = forms.CharField(widget=forms.PasswordInput, label='Пароль')
+
+    def save(self):
+        auth = authenticate(**self.cleaned_data)
+        return auth
+
+
+class SingupForm(forms.Form):
+    username = forms.CharField(max_length=100, label='Логин')
+    password = forms.CharField(widget=forms.PasswordInput, label='Пароль')
+    email = forms.EmailField()
+
+    def save(self):
+        user = User.objects.get_or_create(**self.cleaned_data)
+        user.save()
+        auth = authenticate(**self.cleaned_data)
+        return auth
+
+

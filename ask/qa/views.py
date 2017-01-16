@@ -1,15 +1,14 @@
+from django.contrib.auth import login, logout
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
 
-from .models import Question, Answer
-from .forms import AskForm, AnswerForm
-
-# Create your views here.
+from .models import Question
+from .forms import AskForm, AnswerForm, LoginForm, SingupForm
 
 
-def test(request, *args, **kwargs):
+def test(request):
     return HttpResponse('OK')
 
 
@@ -33,7 +32,7 @@ def paginate(request, qs):
     return page
 
 
-def question_list_all(request, *args, **kwargs):
+def question_list_all(request):
     questions = Question.objects.all()
     page, paginator = paginate(request, questions)
     paginator.baseurl = reverse('index') + '/?page='
@@ -45,7 +44,7 @@ def question_list_all(request, *args, **kwargs):
     })
 
 
-def new(request, *args, **kwargs):
+def new(request):
     questions = Question.objects.new()
     page = paginate(request, questions)
     page.baseurl = '/?page='
@@ -55,7 +54,7 @@ def new(request, *args, **kwargs):
     })
 
 
-def popular(request, *args, **kwargs):
+def popular(request):
     questions = Question.objects.popular()
     page = paginate(request, questions)
     page.baseurl = '/popular/?page='
@@ -65,10 +64,10 @@ def popular(request, *args, **kwargs):
     })
 
 
-def question_detail(request, pk, *args, **kwargs):
+def question_detail(request, pk):
     question = get_object_or_404(Question, id=pk)
     answers = question.answer_set.all()
-    form = AnswerForm(initial={'question': str(pk)})
+    form = AnswerForm(initial={'question': pk})
     return render(request, 'question_detail.html', {
         'question': question,
         'answers':  answers,
@@ -101,4 +100,35 @@ def question_answer_add(request):
             # url = answer.question.get_url(answer.question.pk)
             url = reverse('question_detail', args=[answer.question.id])
             return HttpResponseRedirect(url)
+    return HttpResponseRedirect('/')
+
+
+def user_singup(request):
+    if request.method == 'POST':
+        form = SingupForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect('/')
+
+    form = SingupForm()
+    return render(request, 'singup.html', {'form': form})
+
+
+def user_login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect('/')
+
+    form = LoginForm()
+    return render(request, 'login.html', {'form': form})
+
+
+def user_logout(request):
+    logout(request)
     return HttpResponseRedirect('/')

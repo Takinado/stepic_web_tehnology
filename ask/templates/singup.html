@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block base %}
+    <h1>Создание учетной записи</h1>
+    <form action="/singup/" method="post">{% csrf_token %}
+        {% bootstrap_form_errors form %}
+        {% bootstrap_form form %}
+        {% bootstrap_button "Создать" button_type="submit" button_class="btn-primary" %}
+    </form>
+{% endblock %}
