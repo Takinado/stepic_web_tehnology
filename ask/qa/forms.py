@@ -15,7 +15,7 @@ class AskForm(forms.Form):
         if self._user.is_anonymous:
             self.cleaned_data['author_id'] = 1
         else:
-            self.cleaned_data['author_id'] = self._user
+            self.cleaned_data['author'] = self._user
         ask = Question(**self.cleaned_data)
         ask.save()
         return ask

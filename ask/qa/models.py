@@ -19,7 +19,7 @@ class Question(models.Model):
     text = models.TextField(verbose_name='Текст')
     added_at = models.DateField(blank=True, auto_now_add=True, verbose_name='Дата добавления')
     rating = models.IntegerField(blank=True, default=0, verbose_name='Рейтинг')
-    author = models.ForeignKey(User, related_name='author', verbose_name='Автор')
+    author = models.ForeignKey(User, related_name='question_author', verbose_name='Автор')
     likes = models.ManyToManyField(User, blank=True, related_name='question_like_user', verbose_name='Лайкнувшие')
     objects = QuestionManager()
 
