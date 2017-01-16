@@ -1,8 +1,10 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.http import HttpResponse, Http404
-from django.shortcuts import render
+from django.core.urlresolvers import reverse
+from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.shortcuts import render, get_object_or_404
 
 from .models import Question, Answer
+from .forms import AskForm, AnswerForm
 
 # Create your views here.
 
@@ -33,11 +35,13 @@ def paginate(request, qs):
 
 def question_list_all(request, *args, **kwargs):
     questions = Question.objects.all()
-    page = paginate(request, questions)
-    page.baseurl = '/?page='
+    page, paginator = paginate(request, questions)
+    paginator.baseurl = reverse('index') + '/?page='
+
     return render(request, 'index.html', {
-        'questions':  page.object_list,
-        'page':       page,
+        'questions':    page.object_list,
+        'page':         page,
+        'paginator':    paginator,
     })
 
 
@@ -61,13 +65,40 @@ def popular(request, *args, **kwargs):
     })
 
 
-def question_details(request, pk, *args, **kwargs):
-    try:
-        question = Question.objects.get(pk=pk)
-    except Question.DoesNotExist:
-        raise Http404
-    answers = Answer.objects.all().filter(question=pk)
+def question_detail(request, pk, *args, **kwargs):
+    question = get_object_or_404(Question, id=pk)
+    answers = question.answer_set.all()
+    form = AnswerForm(initial={'question_id': str(pk)})
     return render(request, 'question_detail.html', {
         'question': question,
-        'ansters':  answers,
+        'answers':  answers,
+        'form': form,
     })
+
+
+def question_ask(request):
+    if request.method == 'POST':
+        form = AskForm(request.POST)
+        if form.is_valid():
+            form._user = request.user
+            question = form.save()
+            # url = question.get_url(question.pk)
+            url = reverse('question_detail', args=[question.id])
+            return HttpResponseRedirect(url)
+    else:
+        form = AskForm()
+    return render(request, 'question_add.html', {
+        'form': form
+    })
+
+
+def question_answer_add(request):
+    if request.method == 'POST':
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            form._user = request.user
+            answer = form.save()
+            # url = answer.question.get_url(answer.question.pk)
+            url = reverse('question_detail', args=[answer.question.id])
+            return HttpResponseRedirect(url)
+    return HttpResponseRedirect('/')

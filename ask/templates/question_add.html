@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block base %}
+    <h1>Форма вопроса</h1>
+    <form action="/ask/" method="post">{% csrf_token %}
+        {% bootstrap_form_errors form %}
+        {% bootstrap_form form %}
+        {% bootstrap_button "Задать вопрос" button_type="submit" button_class="btn-primary" %}
+    </form>
+{% endblock %}

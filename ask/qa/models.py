@@ -24,7 +24,7 @@ class Question(models.Model):
     objects = QuestionManager()
 
     def get_url(self):
-        return reverse('question-details', kwargs={'pk': self.pk})
+        return reverse('question_detail', kwargs={'pk': self.pk})
 
     def __unicode__(self):
         return self.title
