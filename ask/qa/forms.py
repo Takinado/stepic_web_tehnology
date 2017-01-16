@@ -12,7 +12,7 @@ class AskForm(forms.Form):
     text = forms.CharField(widget=forms.Textarea, label='Текст вопроса')
 
     def save(self):
-        if self._user.is_anonymous:
+        if self._user.is_anonymous():
             self.cleaned_data['author_id'] = 1
         else:
             self.cleaned_data['author'] = self._user
