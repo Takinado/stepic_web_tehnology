@@ -48,13 +48,13 @@ class LoginForm(forms.Form):
         return auth
 
 
-class SingupForm(forms.Form):
+class SignupForm(forms.Form):
     username = forms.CharField(max_length=100, label='Логин')
-    password = forms.CharField(widget=forms.PasswordInput, label='Пароль')
     email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput, label='Пароль')
 
     def save(self):
-        user = User.objects.get_or_create(**self.cleaned_data)
+        user = User.objects.create_user(**self.cleaned_data)
         user.save()
         auth = authenticate(**self.cleaned_data)
         return auth

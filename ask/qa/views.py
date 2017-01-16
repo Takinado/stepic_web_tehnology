@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
 
 from .models import Question
-from .forms import AskForm, AnswerForm, LoginForm, SingupForm
+from .forms import AskForm, AnswerForm, LoginForm, SignupForm
 
 
 def test(request):
@@ -103,17 +103,17 @@ def question_answer_add(request):
     return HttpResponseRedirect('/')
 
 
-def user_singup(request):
+def user_signup(request):
     if request.method == 'POST':
-        form = SingupForm(request.POST)
+        form = SignupForm(request.POST)
         if form.is_valid():
             user = form.save()
             if user is not None:
                 login(request, user)
                 return HttpResponseRedirect('/')
 
-    form = SingupForm()
-    return render(request, 'singup.html', {'form': form})
+    form = SignupForm()
+    return render(request, 'signup.html', {'form': form})
 
 
 def user_login(request):
